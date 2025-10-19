@@ -16,14 +16,20 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Setup caching
-        uses: actions/cache@v3
-        id: cache-cfn-lint
+      - name: Python with cache
+        uses: actions/setup-python@v6
         with:
-          path: ${{ env.pythonLocation }}
-          key: ${{ runner.os }}-python-${{ hashFiles('**/Pipfile.lock') }}
-          restore-keys: |
-            ${{ runner.os }}-cfn-lint  
+          python-version: '3.13'
+          cache: 'pip'
+        
+#      - name: Setup caching
+#         uses: actions/cache@v3
+#       id: cache-cfn-lint
+#        with:
+#         path: ${{ env.pythonLocation }}
+#          key: ${{ runner.os }}-python-${{ hashFiles('**/Pipfile.lock') }}
+#          restore-keys: |
+#            ${{ runner.os }}-cfn-lint  
         
       - name: Install cfn-lint
         run: |
