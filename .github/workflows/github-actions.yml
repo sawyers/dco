@@ -1,4 +1,4 @@
-name: test assume role
+name: Deploy service stack
 on:
   push:
     branches:

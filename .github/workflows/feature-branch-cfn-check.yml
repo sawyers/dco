@@ -1,4 +1,4 @@
-name: Validate Feature Branch CloudFormation Templates
+name: Validate CloudFormation Templates
 on:
   pull_request:
     branches:
