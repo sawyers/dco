@@ -26,7 +26,7 @@ jobs:
         uses: Blue-Pix/describe-cfn-change-set@v2.1
         with:
           stack_name: DCO-Network
-          template_body: /infra/domain.yml
+          template_body: ./infra/domain.yml
 
   Execute-changeset:
     runs-on: ubuntu-latest	
