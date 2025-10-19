@@ -1,0 +1,44 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: 'Network setup for deep-crypt-off.game domain'
+
+Parameters:
+  DomainName:
+    Type: String
+    Default: 'deep-crypt-off.game'
+    Description: 'The domain name to create a hosted zone for'
+    AllowedPattern: '^[a-zA-Z0-9][a-zA-Z0-9-]{0,61}[a-zA-Z0-9]\.[a-zA-Z]{2,}$'
+    ConstraintDescription: 'Must be a valid domain name'
+
+Resources:
+  HostedZone:
+    Type: 'AWS::Route53::HostedZone'
+    Properties:
+      Name: !Ref DomainName
+      HostedZoneConfig:
+        Comment: !Sub 'Hosted zone for ${DomainName}'
+      HostedZoneTags:
+        - Key: 'Name'
+          Value: !Ref DomainName
+        - Key: 'Environment'
+          Value: 'Production'
+        - Key: 'ManagedBy'
+          Value: 'CloudFormation'
+
+Outputs:
+  HostedZoneId:
+    Description: 'Route53 Hosted Zone ID'
+    Value: !Ref HostedZone
+    Export:
+      Name: !Sub '${AWS::StackName}-HostedZoneId'
+  
+  NameServers:
+    Description: 'Name servers for the hosted zone (configure these with your domain registrar)'
+    Value: !Join [', ', !GetAtt HostedZone.NameServers]
+    Export:
+      Name: !Sub '${AWS::StackName}-NameServers'
+  
+  DomainName:
+    Description: 'The domain name'
+    Value: !Ref DomainName
+    Export:
+      Name: !Sub '${AWS::StackName}-DomainName'
