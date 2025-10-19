@@ -1,0 +1,25 @@
+name: test assume role
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  id-token: write
+  contents: read
+
+jobs:
+  list-domains:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: configure OIDC AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.AWS_ODIC_ROLE }}
+          aws-region: us-east-1
+      - name: Test access
+        run: |
+          aws --version
+          aws sts get-caller-identity
