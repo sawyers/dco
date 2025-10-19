@@ -32,13 +32,6 @@ Resources:
         - !Sub 'www.${DomainName}'
         - !Sub '*.${DomainName}'
       ValidationMethod: DNS
-      DomainValidationOptions:
-        - DomainName: !Ref DomainName
-          HostedZoneId: !Ref HostedZone
-        - DomainName: !Sub 'www.${DomainName}'
-          HostedZoneId: !Ref HostedZone
-        - DomainName: !Sub '*.${DomainName}'
-          HostedZoneId: !Ref HostedZone
       Tags:
         - Key: 'Name'
           Value: !Sub '${DomainName}-certificate'
