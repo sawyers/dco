@@ -28,9 +28,6 @@ Resources:
     Type: 'AWS::CertificateManager::Certificate'
     Properties:
       DomainName: !Ref DomainName
-      SubjectAlternativeNames:
-        - !Sub 'www.${DomainName}'
-        - !Sub '*.${DomainName}'
       ValidationMethod: DNS
       DomainValidationOptions:
         - DomainName: !Ref DomainName
