@@ -24,6 +24,29 @@ Resources:
         - Key: 'ManagedBy'
           Value: 'CloudFormation'
 
+  SSLCertificate:
+    Type: 'AWS::CertificateManager::Certificate'
+    Properties:
+      DomainName: !Ref DomainName
+      SubjectAlternativeNames:
+        - !Sub 'www.${DomainName}'
+        - !Sub '*.${DomainName}'
+      ValidationMethod: DNS
+      DomainValidationOptions:
+        - DomainName: !Ref DomainName
+          HostedZoneId: !Ref HostedZone
+        - DomainName: !Sub 'www.${DomainName}'
+          HostedZoneId: !Ref HostedZone
+        - DomainName: !Sub '*.${DomainName}'
+          HostedZoneId: !Ref HostedZone
+      Tags:
+        - Key: 'Name'
+          Value: !Sub '${DomainName}-certificate'
+        - Key: 'Environment'
+          Value: 'Production'
+        - Key: 'ManagedBy'
+          Value: 'CloudFormation'
+
 Outputs:
   HostedZoneId:
     Description: 'Route53 Hosted Zone ID'
@@ -42,3 +65,9 @@ Outputs:
     Value: !Ref DomainName
     Export:
       Name: !Sub '${AWS::StackName}-DomainName'
+
+  CertificateArn:
+    Description: 'ARN of the SSL certificate'
+    Value: !Ref SSLCertificate
+    Export:
+      Name: !Sub '${AWS::StackName}-CertificateArn'
