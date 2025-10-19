@@ -4,9 +4,10 @@ on:
     branches:
       - main
   push:
-    branches:
-      - '!main'
-
+    branches-ignore:
+      - 'main'
+  workflow_dispatch:
+  
 jobs:
   validate-cfn-templates:
     runs-on: ubuntu-latest
